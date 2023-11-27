@@ -20,10 +20,10 @@ class Employee(db.Model):
     hire_date = db.Column(db.Date)
 
     # Relationship mapping the employee to related reviews
-    reviews = db.relationship('Review', back_populates="employee")
+    reviews = db.relationship('Review', back_populates="employee", cascade='all, delete-orphan')
     
     # Relationship mapping employee to related onboarding
-    onboarding = db.relationship('Onboarding', uselist=False, back_populates='employee')
+    onboarding = db.relationship('Onboarding', uselist=False, back_populates='employee', cascase='all, delete-orphan')
 
     def __repr__(self):
         return f"<Employee {self.id}, {self.name}, {self.hire_date}>"
@@ -53,7 +53,8 @@ class Review(db.Model):
     # Foreign key stores employee id
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
     # Relationship mapping the review to related employees
-    employee=db.relationship('Employee', back_populates="reviews")
+    employee = db.relationship('Employee', back_populates="reviews")
+    
 
     def __repr__(self):
         return f"<Review {self.id}, {self.year}, {self.summary}>"
